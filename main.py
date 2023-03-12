@@ -61,6 +61,28 @@ def get_cafe_at_location():
 
 
 # HTTP POST - Create Record
+def make_bool(val: int) -> bool:
+    return bool(int(val))
+
+
+@app.route('/add', methods=['POST'])
+def add_cafe():
+    new_cafe = Cafe(
+        name=request.form.get("name"),
+        map_url = request.form.get("map_url"),
+        img_url = request.form.get("img_url"),
+        location = request.form.get("location"),
+        seats = request.form.get("seats"),
+        has_toilet = make_bool(request.form.get("has_toilet")),
+        has_wifi = make_bool(request.form.get("has_wifi")),
+        has_sockets = make_bool(request.form.get("has_sockets")),
+        can_take_calls = make_bool(request.form.get("can_take_calls")),
+        coffee_price = request.form.get("coffee_price")
+    )
+    db.session.add(new_cafe)
+    db.session.commit()
+    return jsonify(response={"Success": "Added the new cafe"})
+
 # HTTP PUT/PATCH - Update Record
 
 # HTTP DELETE - Delete Record
